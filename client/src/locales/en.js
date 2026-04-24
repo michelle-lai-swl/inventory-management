@@ -6,6 +6,7 @@ export default {
     orders: 'Orders',
     finance: 'Finance',
     demandForecast: 'Demand Forecast',
+    restocking: 'Restocking',
     companyName: 'Catalyst Components',
     subtitle: 'Inventory Management System'
   },
@@ -106,6 +107,9 @@ export default {
     title: 'Orders',
     description: 'View and manage customer orders',
     allOrders: 'All Orders',
+    submittedOrders: 'Submitted Restocking Orders',
+    leadTime: 'Lead Time',
+    days: 'days',
     totalOrders: 'Total Orders',
     totalRevenue: 'Total Revenue',
     avgOrderValue: 'Avg Order Value',
@@ -198,12 +202,44 @@ export default {
     allMonths: 'All Months'
   },
 
+  // Restocking
+  restocking: {
+    title: 'Restocking',
+    description: 'Set your budget and get smart restocking recommendations based on demand forecasts',
+    budgetLabel: 'Available Budget',
+    budgetMin: '$1,000',
+    budgetMax: '$50,000',
+    itemsToRestock: 'Items to Restock',
+    totalCost: 'Total Order Cost',
+    budgetRemaining: 'Budget Remaining',
+    highPriority: 'High Priority',
+    highPriorityDesc: 'Increasing trend',
+    placeOrder: 'Place Order',
+    confirmOrder: 'Place restocking order for {count} items totaling {total}?',
+    orderPlaced: 'Restocking order {orderNumber} placed successfully! Expected delivery in 14 days.',
+    orderError: 'Failed to place order. Please try again.',
+    noRecommendations: 'No restocking recommendations for the current budget.',
+    noRecommendationsHint: 'Try increasing the budget to see recommendations.',
+    table: {
+      sku: 'SKU',
+      itemName: 'Item Name',
+      currentDemand: 'Current Demand',
+      forecastedDemand: 'Forecasted Demand',
+      demandGap: 'Demand Gap',
+      trend: 'Trend',
+      qtyToOrder: 'Qty to Order',
+      unitCost: 'Unit Cost',
+      lineTotal: 'Line Total'
+    }
+  },
+
   // Statuses
   status: {
     delivered: 'Delivered',
     shipped: 'Shipped',
     processing: 'Processing',
     backordered: 'Backordered',
+    submitted: 'Submitted',
     inStock: 'In Stock',
     lowStock: 'Low Stock',
     adequate: 'Adequate'
