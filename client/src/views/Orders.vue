@@ -25,6 +25,59 @@
           <div class="stat-label">{{ t('status.backordered') }}</div>
           <div class="stat-value">{{ getOrdersByStatus('Backordered').length }}</div>
         </div>
+        <div class="stat-card purple">
+          <div class="stat-label">{{ t('status.submitted') }}</div>
+          <div class="stat-value">{{ getOrdersByStatus('Submitted').length }}</div>
+        </div>
+      </div>
+
+      <!-- Submitted restocking orders placed from the Restocking tab -->
+      <div v-if="getOrdersByStatus('Submitted').length > 0" class="card submitted-card">
+        <div class="card-header">
+          <h3 class="card-title">{{ t('orders.submittedOrders') }} ({{ getOrdersByStatus('Submitted').length }})</h3>
+        </div>
+        <div class="table-container">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th class="col-order-number">{{ t('orders.table.orderNumber') }}</th>
+                <th class="col-customer">{{ t('orders.table.customer') }}</th>
+                <th class="col-items">{{ t('orders.table.items') }}</th>
+                <th class="col-status">{{ t('orders.table.status') }}</th>
+                <th class="col-date">{{ t('orders.table.orderDate') }}</th>
+                <th class="col-date">{{ t('orders.table.expectedDelivery') }}</th>
+                <th class="col-lead">{{ t('orders.leadTime') }}</th>
+                <th class="col-value">{{ t('orders.table.totalValue') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="order in getOrdersByStatus('Submitted')" :key="order.id">
+                <td class="col-order-number"><strong>{{ order.order_number }}</strong></td>
+                <td class="col-customer">{{ order.customer }}</td>
+                <td class="col-items">
+                  <details class="items-details">
+                    <summary class="items-summary">
+                      {{ t('orders.itemsCount', { count: order.items.length }) }}
+                    </summary>
+                    <div class="items-dropdown">
+                      <div v-for="(item, idx) in order.items" :key="idx" class="item-entry">
+                        <span class="item-name">{{ item.name }}</span>
+                        <span class="item-meta">{{ t('orders.quantity') }}: {{ item.quantity }} @ {{ currencySymbol }}{{ item.unit_price }}</span>
+                      </div>
+                    </div>
+                  </details>
+                </td>
+                <td class="col-status">
+                  <span class="badge purple">{{ t('status.submitted') }}</span>
+                </td>
+                <td class="col-date">{{ formatDate(order.order_date) }}</td>
+                <td class="col-date">{{ formatDate(order.expected_delivery) }}</td>
+                <td class="col-lead">{{ getLeadTimeDays(order) }} {{ t('orders.days') }}</td>
+                <td class="col-value"><strong>{{ currencySymbol }}{{ order.total_value.toLocaleString() }}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div class="card">
@@ -138,9 +191,17 @@ export default {
         'Delivered': 'success',
         'Shipped': 'info',
         'Processing': 'warning',
-        'Backordered': 'danger'
+        'Backordered': 'danger',
+        'Submitted': 'purple'
       }
       return statusMap[status] || 'info'
+    }
+
+    // Compute how many days between order_date and expected_delivery
+    const getLeadTimeDays = (order) => {
+      const ordered = new Date(order.order_date)
+      const delivery = new Date(order.expected_delivery)
+      return Math.round((delivery - ordered) / (1000 * 60 * 60 * 24))
     }
 
     const formatDate = (dateString) => {
@@ -162,6 +223,7 @@ export default {
       orders,
       getOrdersByStatus,
       getOrderStatusClass,
+      getLeadTimeDays,
       formatDate,
       currencySymbol,
       translateProductName,
@@ -201,6 +263,15 @@ export default {
 
 .col-value {
   width: 120px;
+}
+
+.col-lead {
+  width: 100px;
+}
+
+.submitted-card {
+  margin-bottom: 1rem;
+  border-color: #e9d5ff;
 }
 
 /* Items details styling */
