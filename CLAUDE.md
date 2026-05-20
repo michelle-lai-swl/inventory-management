@@ -13,9 +13,11 @@ Use the Task tool with these specialized subagents for appropriate tasks:
 - **code-reviewer**: Use after writing significant code to review quality and best practices
 - **Explore**: Use for understanding codebase structure, searching for patterns, or answering questions about how components work
 - **general-purpose**: Use for complex multi-step tasks or when other agents don't fit
+- **debugger**: Use when the app throws a runtime error, a test fails, or something behaves unexpectedly; specializes in Vue 3 reactivity errors, FastAPI/Pydantic validation failures, and Python tracebacks
 
 ### Skills
 - **backend-api-test** skill: Use when writing or modifying tests in `tests/backend` directory with pytest and FastAPI TestClient
+- **vue-analyze** skill: Use to audit all Vue components in `client/src/views/` for performance bottlenecks and code-reuse opportunities; produces a structured report and delegates fixes to vue-expert
 
 ### MCP Tools
 - **ALWAYS use GitHub MCP tools** (`mcp__github__*`) for ALL GitHub operations
